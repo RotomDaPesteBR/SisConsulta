@@ -11,11 +11,11 @@ export default function MainNavbar() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="./">Início</Nav.Link>
-              <Nav.Link href="./paginacao">Consultas</Nav.Link>
-              <Nav.Link href="./racas">Pacientes</Nav.Link>
-              <Nav.Link href="./categorias">Médicos</Nav.Link>
+              <Nav.Link href="./consultas">Consultas</Nav.Link>
+              <Nav.Link href="./pacientes">Pacientes</Nav.Link>
+              <Nav.Link href="./medicos">Médicos</Nav.Link>
               <Nav.Link href="./convenios">Convênios</Nav.Link>
-              <Nav.Link href="./relatórios">Relatórios</Nav.Link>
+              <Nav.Link href="./relatorios">Relatórios</Nav.Link>
             </Nav>
           </Navbar.Collapse>  
         </Container>
