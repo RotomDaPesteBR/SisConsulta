@@ -79,11 +79,15 @@ function Home() {
                             </Row>
                         </Col>
                         <Col className={styles.col2} style={stylesheet.img}>
-                            <Col className={styles.iconCenter}>
-                                <Row className={styles.iconContainer}>
-                                    <Image src={icon} className={styles.icon} layout="fixed" width={500} height={500}></Image>
-                                </Row>
-                            </Col>
+                            <Row className={styles.iconSpace}>
+
+                            </Row>
+                            <Row className={styles.iconContainer}>
+                                <Image src={icon} className={styles.icon}></Image>
+                            </Row>
+                            <Row className={styles.iconSpace}>
+
+                            </Row>
                         </Col>
                     </Row>
                 </Container>
