@@ -1,4 +1,4 @@
-import styles from '../styles/index.module.css'
+import styles from '../styles/pacientes.module.css'
 import React, { useState, useEffect } from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import Head from 'next/head'
@@ -136,12 +136,52 @@ function Home() {
                             </Row>
                         </Col>
                         <Col className={styles.col2} style={stylesheet.img}>
-                            <Row>
                                 <h1 style={stylesheet.buscar}>Buscar</h1>
-                                <h1 style={stylesheet.cadastrar}>Cadastrar</h1>
+                                <div className={styles.cadastrar} style={stylesheet.cadastrar}>
+                                    <label>Nome: </label>
+                                    <input type="text" id="name" name="name" required />
+
+                                    <label>Sexo: </label>
+                                    <select name="sexo" id="sexo">
+                                        <option value="masculino">Masculino</option>
+                                        <option value="feminino">Feminino</option>
+                                        <option value="outros">Outros</option>
+                                    </select>
+
+                                    <label>Data de Nascimento: </label>
+                                    <input type="text" id="name" name="name" required />
+
+                                    <label>Telefone: </label>
+                                    <input type="text" id="name" name="name" />
+
+                                    <label>Celular: </label>
+                                    <input type="text" id="name" name="name" required />
+
+                                    <label>Responsavel: </label>
+                                    <input type="text" id="name" name="name" required />
+
+                                    <label>Cidade: </label>
+                                    <select name="cidade" id="cidade">
+                                        <option value="iamspe">Pindamonhangaba</option>
+                                    </select>
+
+                                    <label>Bairro: </label>
+                                    <select name="bairro" id="bairro">
+                                        <option value="arara">Araretama</option>
+                                        <option value="cj">Cidade Jardim</option>
+                                    </select>
+
+                                    <label>Endereço: </label>
+                                    <input type="text" id="name" name="name" required />
+
+                                    <label>Convênio: </label>
+                                    <select name="convenio" id="convenio">
+                                        <option value="iamspe">Iamspe</option>
+                                    </select>
+                                </div>
                                 <h1 style={stylesheet.editar}>Editar</h1>
                                 <h1 style={stylesheet.remover}>Remover</h1>
-                            </Row>
+                                
                         </Col>
                     </Row>
                 </Container>
