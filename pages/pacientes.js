@@ -3,24 +3,28 @@ import React, { useState, useEffect } from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import Head from 'next/head'
 import Image from 'next/image'
-import icon from '../assets/icon.svg'
 
 function Home() {
     const [buscar, setBuscar] = useState("flex");
     const [cadastrar, setCadastrar] = useState("none");
     const [editar, setEditar] = useState("none");
     const [remover, setRemover] = useState("none");
+    const [UFList, setUFList] = useState("");
+    const [CidadeList, setCidadeList] = useState("");
+    let UF;
     /*const [imgUrl, setImgUrl] = useState("");
     const key = "f0ccfff3-cda6-4cf8-a3df-5bc0f465dcd5";
-    var headers = new Headers();
-    headers.append("x-api-key", key);
     
+    headers.append("x-api-key", key);
+    */
+
+    var headers = new Headers();
     var Init = { method: 'GET',
                    headers: headers,
                    mode: 'cors',
                    cache: 'default' };
-
-    const URL_TO_FETCH = "https://api.thedogapi.com/v1/images/search";*/
+    
+    const UF_URL_TO_FETCH = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
 
     const stylesheet = {
 
@@ -50,23 +54,92 @@ function Home() {
         },
     }
 
-    /*useEffect(() => {
-        updateImgUrl();
+    useEffect(() => {
+        populateUF();
     }, []);
     
-    function updateImgUrl(){
-            fetch(URL_TO_FETCH, Init)
+    function populateUF(){
+            fetch(UF_URL_TO_FETCH, Init)
               .then(function (response) {
                 response.json().then(function (data) {
                   console.log(data);
-                    setImgUrl(data["0"].url);
+                  let content = (
+                  
+                  data.map((element) => 
+                      <option value={element.id} id={element.sigla} key={element.id}>{element.nome}</option>
+                  )
+                  )
+                  console.log(content);
+                  setUFList(content);
                   });
               })
               .catch(function (err) {
                 console.error("Erro", err);
               });
             
-    }*/
+    }
+
+    function populateCidade(){
+        UF = document.getElementById("estado").value;
+        const URL_TO_FETCH = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/"+ UF +"/municipios";
+        fetch(URL_TO_FETCH, Init)
+          .then(function (response) {
+            response.json().then(function (data) {
+              console.log(data);
+              let content = (
+              
+              data.map((element) => 
+                  <option value={element.id} key={element.id}>{element.nome}</option>
+              )
+              )
+              console.log(content);
+              setCidadeList(content);
+              });
+          })
+          .catch(function (err) {
+            console.error("Erro", err);
+          });
+        
+    }
+
+    function buscarPorCEP() {
+        let CEP = document.getElementById("cep").value;
+        if (CEP.length == 8){
+            const CEP_URL = "https://viacep.com.br/ws/" + CEP + "/json/";
+            fetch(CEP_URL, Init)
+            .then(function (response) {
+                response.json().then(function (data) {
+                    console.log(data);
+                    document.getElementById("bairro").value = data.bairro;
+                    document.getElementById("endereco").value = data.logradouro;
+                    UF = document.getElementById(data.uf).value;
+                    document.getElementById("estado").value = UF;
+                    populateCidade();
+                    setTimeout(function(){document.getElementById("cidade").value = data.ibge;},50)
+                    /*
+                    */
+                });
+            })
+            .catch(function (err) {
+                console.error("Erro", err);
+            });
+        }
+    }
+
+    function buscarCEP() {
+        let ENDERECO_URL = "https://viacep.com.br/ws/" + data.uf + "/" + data.localidade + "/" + data.logradouro + "/json/";
+                    console.log(ENDERECO_URL)
+                    fetch(ENDERECO_URL, Init)
+                    .then(function (response) {
+                        response.json().then(function (data) {
+                            console.log(data);
+                            //document.getElementById("bairro").value = data.bairro;
+                        });
+                    })
+                    .catch(function (err) {
+                        console.error("Erro", err);
+                    });
+    }
 
     function showBuscar() {
         setBuscar("flex");
@@ -96,7 +169,6 @@ function Home() {
         setRemover("flex");
     }
 
-    console.log(icon)
     return  <div className={styles.container}>
                 <Head>
                     <title>Pacientes</title>
@@ -160,19 +232,26 @@ function Home() {
                                     <label>Responsavel: </label>
                                     <input type="text" id="name" name="name" required />
 
-                                    <label>Cidade: </label>
-                                    <select name="cidade" id="cidade">
-                                        <option value="iamspe">Pindamonhangaba</option>
+                                    <label>CEP: </label>
+                                    <input type="text" id="cep" name="cep" onChange={()=>buscarPorCEP()}/>
+
+                                    <label>Estado: </label>
+                                    <select name="estado" id="estado" onChange={()=>populateCidade()}>
+                                        <option value=""></option>
+                                        {UFList}
                                     </select>
 
-                                    <label>Bairro: </label>
-                                    <select name="bairro" id="bairro">
-                                        <option value="arara">Araretama</option>
-                                        <option value="cj">Cidade Jardim</option>
+                                    <label>Cidade: </label>
+                                    <select name="cidade" id="cidade" onChange={()=>selectCidade()}>
+                                        <option value=""></option>
+                                        {CidadeList}
                                     </select>
+                                    
+                                    <label>Bairro: </label>
+                                    <input type="text" id="bairro" name="bairro" required />
 
                                     <label>Endereço: </label>
-                                    <input type="text" id="name" name="name" required />
+                                    <input type="text" id="endereco" name="endereco" required />
 
                                     <label>Convênio: </label>
                                     <select name="convenio" id="convenio">
