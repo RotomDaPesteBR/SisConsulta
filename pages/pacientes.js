@@ -127,13 +127,14 @@ function Home() {
     }
 
     function buscarCEP() {
-        let ENDERECO_URL = "https://viacep.com.br/ws/" + data.uf + "/" + data.localidade + "/" + data.logradouro + "/json/";
+        
+        let ENDERECO_URL = "https://viacep.com.br/ws/" + uf + "/" + localidade + "/" + logradouro + "/json/";
                     console.log(ENDERECO_URL)
                     fetch(ENDERECO_URL, Init)
                     .then(function (response) {
                         response.json().then(function (data) {
                             console.log(data);
-                            //document.getElementById("bairro").value = data.bairro;
+                            document.getElementById("cep").value = data.cep;
                         });
                     })
                     .catch(function (err) {
@@ -234,6 +235,8 @@ function Home() {
 
                                     <label>CEP: </label>
                                     <input type="text" id="cep" name="cep" onChange={()=>buscarPorCEP()}/>
+
+                                    <button onClick={()=>buscarCEP()}>Buscar CEP</button>
 
                                     <label>Estado: </label>
                                     <select name="estado" id="estado" onChange={()=>populateCidade()}>
