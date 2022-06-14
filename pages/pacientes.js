@@ -11,7 +11,10 @@ function Home() {
     const [remover, setRemover] = useState("none");
     const [UFList, setUFList] = useState("");
     const [CidadeList, setCidadeList] = useState("");
-    let UF;
+    const [Estado, setEstado] = useState("");
+    const [Cidade, setCidade] = useState("");
+    const [Endereco, setEndereco] = useState("");
+    const [ valorCep ,setValorCep ] = useState("");
     /*const [imgUrl, setImgUrl] = useState("");
     const key = "f0ccfff3-cda6-4cf8-a3df-5bc0f465dcd5";
     
@@ -80,7 +83,7 @@ function Home() {
     }
 
     function populateCidade(){
-        UF = document.getElementById("estado").value;
+        let UF = document.getElementById("estado").value;
         const URL_TO_FETCH = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/"+ UF +"/municipios";
         fetch(URL_TO_FETCH, Init)
           .then(function (response) {
@@ -104,20 +107,22 @@ function Home() {
 
     function buscarPorCEP() {
         let CEP = document.getElementById("cep").value;
-        if (CEP.length == 8){
+        if (CEP.length == 9){
             const CEP_URL = "https://viacep.com.br/ws/" + CEP + "/json/";
             fetch(CEP_URL, Init)
             .then(function (response) {
                 response.json().then(function (data) {
-                    console.log(data);
-                    document.getElementById("bairro").value = data.bairro;
-                    document.getElementById("endereco").value = data.logradouro;
-                    UF = document.getElementById(data.uf).value;
-                    document.getElementById("estado").value = UF;
-                    populateCidade();
-                    setTimeout(function(){document.getElementById("cidade").value = data.ibge;},50)
-                    /*
-                    */
+                    if(data.erro == undefined){
+                        console.log(data);
+                        document.getElementById("bairro").value = data.bairro;
+                        document.getElementById("endereco").value = data.logradouro;
+                        let UF = document.getElementById(data.uf).value;
+                        document.getElementById("estado").value = UF;
+                        populateCidade();
+                        setTimeout(function(){document.getElementById("cidade").value = data.ibge;},50)
+                    } else {
+
+                    }
                 });
             })
             .catch(function (err) {
@@ -127,19 +132,37 @@ function Home() {
     }
 
     function buscarCEP() {
-        
+        let estadoRef = document.getElementById("estado");
+        let uf = estadoRef[estadoRef.selectedIndex].id;
+        let cidadeRef = document.getElementById("cidade");
+        let localidade = cidadeRef[cidadeRef.selectedIndex].innerText;
+        console.log(localidade)
+        let logradouro = document.getElementById("endereco").value;
         let ENDERECO_URL = "https://viacep.com.br/ws/" + uf + "/" + localidade + "/" + logradouro + "/json/";
                     console.log(ENDERECO_URL)
                     fetch(ENDERECO_URL, Init)
                     .then(function (response) {
                         response.json().then(function (data) {
+                            if (data[0].cep == undefined){
+                            }
+                            else{
                             console.log(data);
-                            document.getElementById("cep").value = data.cep;
+                            setValorCep(data[0].cep);
+                            setTimeout(function(){buscarPorCEP()},50)
+                            }
                         });
                     })
                     .catch(function (err) {
                         console.error("Erro", err);
                     });
+    }
+
+    function CepChange(ref) {
+        let value = ref.value;
+        value = value.replace(/\D/g,"");
+        value = value.replace(/^(\d{5})(\d)/,"$1-$2");
+        setValorCep(value)
+        console.log(value);
     }
 
     function showBuscar() {
@@ -234,8 +257,10 @@ function Home() {
                                     <input type="text" id="name" name="name" required />
 
                                     <label>CEP: </label>
-                                    <input type="text" id="cep" name="cep" onChange={()=>buscarPorCEP()}/>
-
+                                    <input type="text" id="cep" name="cep" maxLength="9" value={valorCep} onChange={e => CepChange(e.target) }/>
+                                    <br></br>
+                                    <button onClick={()=>buscarPorCEP()}>Buscar por CEP</button>
+                                    <br></br>
                                     <button onClick={()=>buscarCEP()}>Buscar CEP</button>
 
                                     <label>Estado: </label>
@@ -245,7 +270,7 @@ function Home() {
                                     </select>
 
                                     <label>Cidade: </label>
-                                    <select name="cidade" id="cidade" onChange={()=>selectCidade()}>
+                                    <select name="cidade" id="cidade">
                                         <option value=""></option>
                                         {CidadeList}
                                     </select>
