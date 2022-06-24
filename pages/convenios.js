@@ -204,7 +204,7 @@ function Home() {
 
     return  <div className={styles.container}>
                 <Head>
-                    <title>Pacientes</title>
+                    <title>Convênios</title>
                 </Head>
                 <div id="navbar" className={styles.navbar}></div>
                 <Container fluid>
@@ -212,7 +212,7 @@ function Home() {
                         <Col className={styles.col1}>
                             <Row>
                                 <h1 className={styles.title}>
-                                    Pacientes
+                                    Convênios
                                 </h1>
                             </Row>
                             <Row className={styles.buttons}>
@@ -223,8 +223,18 @@ function Home() {
                                             </button>
                                         </li>
                                         <li>
-                                            <button onClick={()=>showCadastrar()} className={styles.items} style={stylesheet.bottombutton}>
+                                            <button onClick={()=>showCadastrar()} className={styles.items}>
                                                 Cadastrar
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button onClick={()=>showEditar()} className={styles.items}>
+                                                Editar
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button onClick={()=>showRemover()} className={styles.items} style={stylesheet.bottombutton}>
+                                                Remover
                                             </button>
                                         </li>
                                     </ul>
@@ -260,7 +270,6 @@ function Home() {
                                                 <th>Sexo</th>
                                                 <th>CPF</th>
                                                 <th>Data de Nascimento</th>
-                                                <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -269,24 +278,12 @@ function Home() {
                                                     <td>Masculino</td>
                                                     <td>1234567-89</td>
                                                     <td>01/01/2000</td>
-                                                    <td>
-                                                        <ButtonGroup>
-                                                            <Button variant="outline-secondary"><img src="https://img.icons8.com/ios-filled/30/000000/pencil--v1.png"/>
-                                                            </Button><Button variant="outline-secondary"><img src="https://img.icons8.com/ios-glyphs/30/000000/eraser.png"/></Button>
-                                                        </ButtonGroup>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>QWERTY</td>
                                                     <td>Feminino</td>
                                                     <td>9876543-21</td>
                                                     <td>31/12/2000</td>
-                                                    <td>
-                                                        <ButtonGroup>
-                                                            <Button variant="outline-secondary"><img src="https://img.icons8.com/ios-filled/30/000000/pencil--v1.png"/>
-                                                            </Button><Button variant="outline-secondary"><img src="https://img.icons8.com/ios-glyphs/30/000000/eraser.png"/></Button>
-                                                        </ButtonGroup>
-                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </Table>
@@ -319,7 +316,7 @@ function Home() {
                                     <label>CEP: </label>
                                     <div className={styles.CEP}>
                                         <input type="text" id="cep" name="cep" maxLength="9" value={valorCep} onChange={e => CepChange(e.target)} style={stylesheet.CEPInput}/>
-                                        <ButtonGroup size='sm' style={stylesheet.CEPButtonGroup}>
+                                        <ButtonGroup style={stylesheet.CEPButtonGroup}>
                                             <Button variant="secondary" onClick={()=>buscarPorCEP()} style={stylesheet.CEPbutton}>Buscar por CEP</Button>
                                             <Button variant="secondary" onClick={()=>buscarCEP()} style={stylesheet.CEPbutton}>Buscar CEP</Button>
                                         </ButtonGroup>
