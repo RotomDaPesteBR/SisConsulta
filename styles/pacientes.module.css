@@ -30,6 +30,9 @@
     text-align: center;
     justify-content: center;
     align-items: center;
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .title {
@@ -77,4 +80,9 @@
 
 .cadastrar{
     flex-direction: column;
+}
+
+.CEP{
+    flex-direction: row;
+    flex-wrap: nowrap;
 }

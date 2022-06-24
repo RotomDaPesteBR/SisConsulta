@@ -119,7 +119,7 @@ function Home() {
                         let UF = document.getElementById(data.uf).value;
                         document.getElementById("estado").value = UF;
                         populateCidade();
-                        setTimeout(function(){document.getElementById("cidade").value = data.ibge;},50)
+                        setTimeout(function(){document.getElementById("cidade").value = data.ibge;},100)
                     } else {
 
                     }
@@ -231,7 +231,7 @@ function Home() {
                                     </ul>
                             </Row>
                         </Col>
-                        <Col className={styles.col2} style={stylesheet.img}>
+                        <Col className={styles.col2}>
                                 <h1 style={stylesheet.buscar}>Buscar</h1>
                                 <div className={styles.cadastrar} style={stylesheet.cadastrar}>
                                     <label>Nome: </label>
@@ -239,9 +239,9 @@ function Home() {
 
                                     <label>Sexo: </label>
                                     <select name="sexo" id="sexo">
+                                        <option value=""></option>
                                         <option value="masculino">Masculino</option>
                                         <option value="feminino">Feminino</option>
-                                        <option value="outros">Outros</option>
                                     </select>
 
                                     <label>Data de Nascimento: </label>
@@ -257,11 +257,11 @@ function Home() {
                                     <input type="text" id="name" name="name" required />
 
                                     <label>CEP: </label>
-                                    <input type="text" id="cep" name="cep" maxLength="9" value={valorCep} onChange={e => CepChange(e.target) }/>
-                                    <br></br>
-                                    <button onClick={()=>buscarPorCEP()}>Buscar por CEP</button>
-                                    <br></br>
-                                    <button onClick={()=>buscarCEP()}>Buscar CEP</button>
+                                    <div className={styles.CEP}>
+                                        <input type="text" id="cep" name="cep" maxLength="9" value={valorCep} onChange={e => CepChange(e.target) }/>
+                                        <button onClick={()=>buscarPorCEP()}>Buscar por CEP</button>
+                                        <button onClick={()=>buscarCEP()}>Buscar CEP</button>
+                                    </div>
 
                                     <label>Estado: </label>
                                     <select name="estado" id="estado" onChange={()=>populateCidade()}>
@@ -283,7 +283,7 @@ function Home() {
 
                                     <label>Convênio: </label>
                                     <select name="convenio" id="convenio">
-                                        <option value="iamspe">Iamspe</option>
+                                        <option value=""></option>
                                     </select>
                                 </div>
                                 <h1 style={stylesheet.editar}>Editar</h1>
